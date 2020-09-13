@@ -1,0 +1,2447 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package dbms;
+
+import java.awt.Color;
+import static java.awt.Color.red;
+import java.awt.Insets;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.sql.*;
+import java.util.Observable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+
+/**
+ *
+ * @author Nayeem
+ */
+
+ 
+
+public class insert extends Application
+{
+    Stage stage;
+    Pane startroot,tableroot,updatetable;
+    Button enter,update,info,student,teacher,section,school,result,head,assis,clas,back;
+    Button addS,addSch,addHd,addAssis,addT,addC,addSec,addR;
+    Button infoHd,infoAssis,infoT,infoC,infoSec,infoR,infoS,infoSch;
+    Scene scene,tablescene,infoscene,uptablesceneS,uptablesceneT,uptablesceneSec,uptablesceneSch,uptablesceneRes,uptablesceneH,uptablesceneA,uptablesceneC;
+    Scene SinfoHd,SinfoAssis,SinfoT,SinfoC,SinfoSec,SinfoR,SinfoS,SinfoSch;
+    //TextField username,password;
+    Label rinfo,lr1,lr2,lr3,lr4,lr5;
+    TextField tr1,tr2,tr3,tr4,tr5;
+    Label secinfo,lsec1,lsec2,lsec3,lsec4,lsec5;
+    TextField tsec1,tsec2,tsec3,tsec4,tsec5;
+    Label cinfo,lc1,lc2,lc3;
+    TextField tc1,tc2,tc3;
+    TextField t1,t2,t3,t4,t5,t6,t7,t8,t9;
+    TextField thd1,thd2,thd3,thd4,thd5,thd6,thd7,thd8;
+    Label hdinfo,lhd1,lhd2,lhd3,lhd4,lhd5,lhd6,lhd7,lhd8;
+    TextField tas1,tas2,tas3,tas4,tas5,tas6,tas7,tas8;
+    Label tinfo,lt1,lt2,lt3,lt4,lt5,lt6,lt7,lt8;
+    TextField tt1,tt2,tt3,tt4,tt5,tt6,tt7,tt8;
+    Label assisinfo,las1,las2,las3,las4,las5,las6,las7,las8;
+    Label studentinfo,schoolinfo,l1,l2,l3,l4,l5,l6,l7,l8,l9;
+    Label studentinfo1,studentinfo2,studentinfo3,studentinfo4,studentinfo5,studentinfo6,studentinfo7;
+    Text studentinfo11,studentinfo22,studentinfo33,studentinfo44,studentinfo55,studentinfo66,studentinfo77;
+    Group group1,group2,groupinfo,groupstudent,groupteacher,groupsection,groupschool,groupresult,grouphead,groupassis,groupclas;
+    Group grpinfHd,grpinfAssis,grpinfT,grpinfC,grpinfSec,grpinfR,grpinfS,grpinfSch;
+    ImageView iv1,imview1st,imviewlogin,imviewinfoadd,imviewstudentinfo;
+    Image image1,im1st,imlogin,iminfoadd,imstudentinfo;
+    Button backupdate,backupS,backupHd,backupAssis,backupT,backupC,backupSec,backupSch,backupR;
+    Button backinfo,backinfoS,backinfoHd,backinfoAssis,backinfoT,backinfoC,backinfoSec,backinfoSch,backinfoR;
+    Label schoolinfo1,schoolinfo2;
+    Text schoolinfo11,schoolinfo22;
+    Label hdinfo1,hdinfo2,hdinfo3,hdinfo4,hdinfo5,hdinfo6,hdinfo7,hdinfo8;
+    Text hdinfo11,hdinfo22,hdinfo33,hdinfo44,hdinfo55,hdinfo66,hdinfo77,hdinfo88;
+    Button guest,admin;
+    Group login,root,groupguest;
+    Scene startscene,sLogin,guestscene;
+    TextField username;
+    PasswordField password;
+    Label Lusername,Lpassword;
+    Button bLogin,backuserlogin,backlogin,backguest,testjoinquery,testsubquery;
+    Scene Stestjoinquery;
+    Group grptestjoinquery;
+    Label Ltestjoinquery1,Ltestjoinquery2,Ltestjoinquery3;
+    Text Ttestjoinquery11,Ttestjoinquery22,Ttestjoinquery33;
+    Scene Stestsubquery;
+    Group grptestsubquery;
+    Label Ltestsubquery1,Ltestsubquery2;
+    Text Ttestsubquery11,Ttestsubquery22;
+    //TableView<User2> table;
+    TableView<User2> table=new TableView<>();
+    ObservableList<User2> data = FXCollections.observableArrayList();
+    
+    TableView<HdM> tableHdM=new TableView<>();
+    ObservableList<HdM> dataHdM = FXCollections.observableArrayList();
+    
+    
+   public void start(Stage primaryStage) throws IOException
+   {
+      /* TableView<User2> table=new TableView<>();
+       final ObservableList<User2> data = FXCollections.observableArrayList();*/
+       //Parent root2 = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+        stage=primaryStage;
+        startroot=new Pane();
+        guest=new Button("Enter As GUEST");
+        guest.setTranslateX(150);
+        guest.setTranslateY(500);
+        guest.setMinHeight(40);
+        guest.setMinWidth(100);
+        admin=new Button("Enter As ADMIN");
+        admin.setTranslateX(750);
+        admin.setTranslateY(500);
+        admin.setMinHeight(40);
+        admin.setMinWidth(100);
+        testjoinquery=new Button("Test Join");
+        testjoinquery.setTranslateX(450);
+        testjoinquery.setTranslateY(500);
+        testjoinquery.setMinHeight(40);
+        testjoinquery.setMinWidth(100);
+        testsubquery=new Button("Test SubQuery");
+        testsubquery.setTranslateX(450);
+        testsubquery.setTranslateY(550);
+        testsubquery.setMinHeight(40);
+        testsubquery.setMinWidth(100);
+        
+        im1st = new Image("1st.jpg");
+        imview1st = new ImageView();
+        imview1st.setImage(im1st);
+        imview1st.setTranslateX(0);
+        imview1st.setTranslateY(0);
+        imview1st.setFitHeight(650);
+        imview1st.setFitWidth(1000);
+        
+        guest.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        admin.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        testjoinquery.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        testsubquery.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        startroot.getChildren().addAll(imview1st,guest,admin,testjoinquery,testsubquery);
+        
+        
+        
+        login=new Group();
+        
+        username =new TextField();
+        username.setLayoutX(220);
+        username.setLayoutY(90);
+        
+        password=new PasswordField();
+        password.setLayoutX(220);
+        password.setLayoutY(130);
+        
+        Lusername=new Label("User Name");
+        Lusername.setLayoutX(140);
+        Lusername.setLayoutY(92);
+       
+        Lpassword=new Label("Password");
+        Lpassword.setLayoutX(140);
+        Lpassword.setLayoutY(134);
+        
+        bLogin=new Button("Log in");
+        bLogin.setTranslateX(220);
+        bLogin.setTranslateY(200);
+        bLogin.setMinHeight(20);
+        bLogin.setMinWidth(65);
+        
+        backlogin=new Button("Back");
+        backlogin.setLayoutX(100);
+        backlogin.setLayoutY(550);
+        backlogin.setMinHeight(18);
+        backlogin.setMinWidth(40);
+        
+        imlogin = new Image("login.jpg");
+        imviewlogin = new ImageView();
+        imviewlogin.setImage(imlogin);
+        imviewlogin.setTranslateX(0);
+        imviewlogin.setTranslateY(0);
+        imviewlogin.setFitHeight(650);
+        imviewlogin.setFitWidth(1000);
+        
+        bLogin.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        
+        backlogin.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        
+        login.getChildren().addAll(Lusername,Lpassword,imviewlogin,username,password,bLogin,backlogin);
+        
+        
+        
+        root=new Group();
+
+        update=new Button("UPDATE");
+        update.setTranslateX(180);
+        update.setTranslateY(580);
+        update.setMinHeight(30);
+        update.setMinWidth(70);
+        info=new Button("Information");
+        info.setTranslateX(80);
+        info.setTranslateY(580);
+        info.setMinHeight(30);
+        info.setMinWidth(70);
+        backuserlogin=new Button("Log out");
+        backuserlogin.setLayoutX(910);
+        backuserlogin.setLayoutY(20);
+        backuserlogin.setMinHeight(20);
+        backuserlogin.setMinWidth(60);
+        
+        image1 = new Image("back.jpg");
+        iv1 = new ImageView();
+        iv1.setImage(image1);
+        iv1.setTranslateX(0);
+        iv1.setTranslateY(0);
+        iv1.setFitHeight(650);
+        iv1.setFitWidth(1000);
+        
+        update.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        info.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        backuserlogin.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        root.getChildren().addAll(iv1,update,info,backuserlogin);
+        
+        tableroot=new Pane();
+        tablescene=new Scene(tableroot,1000,650);
+        
+        group1=new Group();
+        school=new Button("SCHOOL");
+        school.setLayoutX(180);
+        school.setLayoutY(50);
+        school.setMinHeight(30);
+        school.setMinWidth(70);
+        
+        school.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        
+        head=new Button("HEAD MASTER");
+        head.setLayoutX(180);
+        head.setLayoutY(100);
+        head.setMinHeight(30);
+        head.setMinWidth(70);
+        
+        head.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        
+        assis=new Button("ASSIS. HEAD MASTER");
+        assis.setLayoutX(180);
+        assis.setLayoutY(150);
+        assis.setMinHeight(30);
+        assis.setMinWidth(70);
+        
+        assis.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        
+        student=new Button("STUDENT");
+        student.setLayoutX(180);
+        student.setLayoutY(200);
+        student.setMinHeight(30);
+        student.setMinWidth(70);
+        
+        student.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        
+        teacher=new Button("TEACHER");
+        teacher.setLayoutX(180);
+        teacher.setLayoutY(250);
+        teacher.setMinHeight(30);
+        teacher.setMinWidth(70);
+        
+        teacher.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        
+        clas=new Button("CLASS");
+        clas.setLayoutX(180);
+        clas.setLayoutY(300);
+        clas.setMinHeight(30);
+        clas.setMinWidth(70);
+        
+        clas.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        
+        section=new Button("SECTION");
+        section.setLayoutX(180);
+        section.setLayoutY(350);
+        section.setMinHeight(30);
+        section.setMinWidth(70);
+        
+        section.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        
+        result=new Button("RESULT");
+        result.setLayoutX(180);
+        result.setLayoutY(400);
+        result.setMinHeight(30);
+        result.setMinWidth(70);
+        
+        result.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        
+        
+        backupdate=new Button("Back");
+        backupdate.setLayoutX(100);
+        backupdate.setLayoutY(550);
+        backupdate.setMinHeight(30);
+        backupdate.setMinWidth(70);
+        
+        backupdate.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        
+        
+       group1.getChildren().addAll(backuserlogin,backupdate,school,head,assis,student,teacher,clas,section,result);
+       
+       
+       
+        group2=new Group();
+        infoSch=new Button("SCHOOL");
+        infoSch.setLayoutX(180);
+        infoSch.setLayoutY(50);
+        infoSch.setMinHeight(30);
+        infoSch.setMinWidth(70);
+        
+        infoSch.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        
+        infoHd=new Button("HEAD MASTER");
+        infoHd.setLayoutX(180);
+        infoHd.setLayoutY(100);
+        infoHd.setMinHeight(30);
+        infoHd.setMinWidth(70);
+        
+        infoHd.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        
+        infoAssis=new Button("ASSIS. HEAD MASTER");
+        infoAssis.setLayoutX(180);
+        infoAssis.setLayoutY(150);
+        infoAssis.setMinHeight(30);
+        infoAssis.setMinWidth(70);
+        
+        infoAssis.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        
+        infoS=new Button("STUDENT");
+        infoS.setLayoutX(180);
+        infoS.setLayoutY(200);
+        infoS.setMinHeight(30);
+        infoS.setMinWidth(70);
+        
+        infoS.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        
+        infoT=new Button("TEACHER");
+        infoT.setLayoutX(180);
+        infoT.setLayoutY(250);
+        infoT.setMinHeight(30);
+        infoT.setMinWidth(70);
+        
+        infoT.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        
+        infoC=new Button("CLASS");
+        infoC.setLayoutX(180);
+        infoC.setLayoutY(300);
+        infoC.setMinHeight(30);
+        infoC.setMinWidth(70);
+        
+        infoC.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        
+        infoSec=new Button("SECTION");
+        infoSec.setLayoutX(180);
+        infoSec.setLayoutY(350);
+        infoSec.setMinHeight(30);
+        infoSec.setMinWidth(70);
+        
+        infoSec.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        
+        infoR=new Button("RESULT");
+        infoR.setLayoutX(180);
+        infoR.setLayoutY(400);
+        infoR.setMinHeight(30);
+        infoR.setMinWidth(70);
+        
+        infoR.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        
+        backinfo=new Button("Back");
+        backinfo.setLayoutX(100);
+        backinfo.setLayoutY(550);
+        backinfo.setMinHeight(30);
+        backinfo.setMinWidth(70);
+        
+        backinfo.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+        
+        
+       group2.getChildren().addAll(infoHd,infoAssis,infoT,infoC,infoSec,infoR,infoS,infoSch,backinfo);
+        
+        
+       groupguest=new Group();
+       backguest=new Button("Back");
+       backguest.setLayoutX(100);
+       backguest.setLayoutY(550);
+       backguest.setMinHeight(30);
+       backguest.setMinWidth(70);
+        
+       backguest.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+       groupguest.getChildren().addAll(infoHd,infoAssis,infoT,infoC,infoSec,infoR,infoS,infoSch,backguest);
+       
+       
+       
+        
+       groupstudent=new Group();
+       
+        iminfoadd = new Image("infoadd.jpg");
+        imviewinfoadd = new ImageView();
+        imviewinfoadd.setImage(iminfoadd);
+        imviewinfoadd.setTranslateX(0);
+        imviewinfoadd.setTranslateY(0);
+        imviewinfoadd.setFitHeight(650);
+        imviewinfoadd.setFitWidth(1000);
+        
+       studentinfo=new Label("STUDENT INFO.");
+       studentinfo.setLayoutX(240);
+       studentinfo.setLayoutY(30);
+       
+       l1=new Label("STUDENT_ID");
+       l1.setLayoutX(140);
+       l1.setLayoutY(94);
+       
+       l2=new Label("NAME");
+       l2.setLayoutX(140);
+       l2.setLayoutY(134);
+       
+       l3=new Label("BDATE");
+       l3.setLayoutX(140);
+       l3.setLayoutY(174);
+       
+       l4=new Label("SECTION_ID");
+       l4.setLayoutX(140);
+       l4.setLayoutY(214);
+       
+       l5=new Label("ROLL");
+       l5.setLayoutX(140);
+       l5.setLayoutY(254);
+       
+       l6=new Label("GENDER");
+       l6.setLayoutX(140);
+       l6.setLayoutY(294);
+       
+       l7=new Label("CONTACT_NO");
+       l7.setLayoutX(140);
+       l7.setLayoutY(334);
+       
+       
+       t1 =new TextField();
+       t1.setLayoutX(220);
+       t1.setLayoutY(90);
+       
+       t2 =new TextField();
+       t2.setLayoutX(220);
+       t2.setLayoutY(130);
+       
+       t3 =new TextField();
+       t3.setLayoutX(220);
+       t3.setLayoutY(170);
+       
+       t4 =new TextField();
+       t4.setLayoutX(220);
+       t4.setLayoutY(210);
+       
+       t5 =new TextField();
+       t5.setLayoutX(220);
+       t5.setLayoutY(250);
+       
+       t6 =new TextField();
+       t6.setLayoutX(220);
+       t6.setLayoutY(290);
+       
+       t7 =new TextField();
+       t7.setLayoutX(220);
+       t7.setLayoutY(330);
+       
+        backupS=new Button("Back");
+        backupS.setLayoutX(100);
+        backupS.setLayoutY(550);
+        backupS.setMinHeight(30);
+        backupS.setMinWidth(70);
+        
+        backupS.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+       
+       addS=new Button("Add");
+       addS.setLayoutX(220);
+       addS.setLayoutY(370);
+       addS.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+       
+
+       groupstudent.getChildren().addAll(imviewinfoadd,studentinfo,l1,l2,l3,l4,l5,l6,l7,addS,t1,t2,t3,t4,t5,t6,t7,backupS);
+       
+       
+       
+       
+       
+       
+       
+       grouphead=new Group();
+        
+       hdinfo=new Label("HEAD MASTER INFO.");
+       hdinfo.setLayoutX(240);
+       hdinfo.setLayoutY(30);
+       
+       lhd1=new Label("HDM_ID");
+       lhd1.setLayoutX(140);
+       lhd1.setLayoutY(94);
+       
+       lhd2=new Label("SCHOOL_ID");
+       lhd2.setLayoutX(140);
+       lhd2.setLayoutY(134);
+       
+       lhd3=new Label("NAME");
+       lhd3.setLayoutX(140);
+       lhd3.setLayoutY(174);
+       
+       lhd4=new Label("AGE");
+       lhd4.setLayoutX(140);
+       lhd4.setLayoutY(214);
+       
+       lhd5=new Label("SUBJECT");
+       lhd5.setLayoutX(140);
+       lhd5.setLayoutY(254);
+       
+       lhd6=new Label("START_DATE");
+       lhd6.setLayoutX(140);
+       lhd6.setLayoutY(294);
+       
+       lhd7=new Label("END_DATE");
+       lhd7.setLayoutX(140);
+       lhd7.setLayoutY(334);
+       
+       lhd8=new Label("CONTACT_NO");
+       lhd8.setLayoutX(140);
+       lhd8.setLayoutY(374);
+       
+       
+       thd1 =new TextField();
+       thd1.setLayoutX(220);
+       thd1.setLayoutY(90);
+       
+       thd2 =new TextField();
+       thd2.setLayoutX(220);
+       thd2.setLayoutY(130);
+       
+       thd3 =new TextField();
+       thd3.setLayoutX(220);
+       thd3.setLayoutY(170);
+       
+       thd4 =new TextField();
+       thd4.setLayoutX(220);
+       thd4.setLayoutY(210);
+       
+       thd5 =new TextField();
+       thd5.setLayoutX(220);
+       thd5.setLayoutY(250);
+       
+       thd6 =new TextField();
+       thd6.setLayoutX(220);
+       thd6.setLayoutY(290);
+       
+       thd7 =new TextField();
+       thd7.setLayoutX(220);
+       thd7.setLayoutY(330);
+       
+       thd8 =new TextField();
+       thd8.setLayoutX(220);
+       thd8.setLayoutY(370);
+       
+       backupHd=new Button("Back");
+        backupHd.setLayoutX(100);
+        backupHd.setLayoutY(550);
+        backupHd.setMinHeight(30);
+        backupHd.setMinWidth(70);
+        
+        backupHd.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+       
+       addHd=new Button("Add");
+       addHd.setLayoutX(220);
+       addHd.setLayoutY(410);
+       
+       addHd.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+
+       grouphead.getChildren().addAll(imviewinfoadd,hdinfo,lhd1,lhd2,lhd3,lhd4,lhd5,lhd6,lhd7,lhd8,addHd,thd1,thd2,thd3,thd4,thd5,thd6,thd7,thd8,backupHd);
+       
+       
+       
+       
+       
+       groupassis=new Group();
+        
+       assisinfo=new Label("ASSISTANT HEAD MASTER INFO.");
+       assisinfo.setLayoutX(240);
+       assisinfo.setLayoutY(30);
+       
+       las1=new Label("ASHDM_ID");
+       las1.setLayoutX(140);
+       las1.setLayoutY(94);
+       
+       las2=new Label("SCHOOL_ID");
+       las2.setLayoutX(140);
+       las2.setLayoutY(134);
+       
+       las3=new Label("NAME");
+       las3.setLayoutX(140);
+       las3.setLayoutY(174);
+       
+       las4=new Label("AGE");
+       las4.setLayoutX(140);
+       las4.setLayoutY(214);
+       
+       las5=new Label("SUBJECT");
+       las5.setLayoutX(140);
+       las5.setLayoutY(254);
+       
+       las6=new Label("START_DATE");
+       las6.setLayoutX(140);
+       las6.setLayoutY(294);
+       
+       las7=new Label("END_DATE");
+       las7.setLayoutX(140);
+       las7.setLayoutY(334);
+       
+       las8=new Label("CONTACT_NO");
+       las8.setLayoutX(140);
+       las8.setLayoutY(374);
+       
+       
+       tas1 =new TextField();
+       tas1.setLayoutX(220);
+       tas1.setLayoutY(90);
+       
+       tas2 =new TextField();
+       tas2.setLayoutX(220);
+       tas2.setLayoutY(130);
+       
+       tas3 =new TextField();
+       tas3.setLayoutX(220);
+       tas3.setLayoutY(170);
+       
+       tas4 =new TextField();
+       tas4.setLayoutX(220);
+       tas4.setLayoutY(210);
+       
+       tas5 =new TextField();
+       tas5.setLayoutX(220);
+       tas5.setLayoutY(250);
+       
+       tas6 =new TextField();
+       tas6.setLayoutX(220);
+       tas6.setLayoutY(290);
+       
+       tas7 =new TextField();
+       tas7.setLayoutX(220);
+       tas7.setLayoutY(330);
+       
+       tas8 =new TextField();
+       tas8.setLayoutX(220);
+       tas8.setLayoutY(370);
+       
+       backupAssis=new Button("Back");
+        backupAssis.setLayoutX(100);
+        backupAssis.setLayoutY(550);
+        backupAssis.setMinHeight(30);
+        backupAssis.setMinWidth(70);
+        
+        backupAssis.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+       
+       addAssis=new Button("Add");
+       addAssis.setLayoutX(220);
+       addAssis.setLayoutY(410);
+       
+       addAssis.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+       
+       groupassis.getChildren().addAll(imviewinfoadd,assisinfo,las1,las2,las3,las4,las5,las6,las7,las8,addAssis,tas1,tas2,tas3,tas4,tas5,tas6,tas7,tas8,backupAssis);
+       
+       
+       
+       
+       
+       
+       groupteacher=new Group();
+        
+       tinfo=new Label("TEACHER INFO.");
+       tinfo.setLayoutX(240);
+       tinfo.setLayoutY(30);
+       
+       lt1=new Label("TEACHER_ID");
+       lt1.setLayoutX(140);
+       lt1.setLayoutY(94);
+       
+       lt2=new Label("SCHOOL_ID");
+       lt2.setLayoutX(140);
+       lt2.setLayoutY(134);
+       
+       lt3=new Label("NAME");
+       lt3.setLayoutX(140);
+       lt3.setLayoutY(174);
+       
+       lt4=new Label("AGE");
+       lt4.setLayoutX(140);
+       lt4.setLayoutY(214);
+       
+       lt5=new Label("SUBJECT");
+       lt5.setLayoutX(140);
+       lt5.setLayoutY(254);
+       
+       lt6=new Label("START_DATE");
+       lt6.setLayoutX(140);
+       lt6.setLayoutY(294);
+       
+       lt7=new Label("END_DATE");
+       lt7.setLayoutX(140);
+       lt7.setLayoutY(334);
+       
+       lt8=new Label("CONTACT_NO");
+       lt8.setLayoutX(140);
+       lt8.setLayoutY(374);
+       
+       
+       tt1 =new TextField();
+       tt1.setLayoutX(220);
+       tt1.setLayoutY(90);
+       
+       tt2 =new TextField();
+       tt2.setLayoutX(220);
+       tt2.setLayoutY(130);
+       
+       tt3 =new TextField();
+       tt3.setLayoutX(220);
+       tt3.setLayoutY(170);
+       
+       tt4 =new TextField();
+       tt4.setLayoutX(220);
+       tt4.setLayoutY(210);
+       
+       tt5 =new TextField();
+       tt5.setLayoutX(220);
+       tt5.setLayoutY(250);
+       
+       tt6 =new TextField();
+       tt6.setLayoutX(220);
+       tt6.setLayoutY(290);
+       
+       tt7 =new TextField();
+       tt7.setLayoutX(220);
+       tt7.setLayoutY(330);
+       
+       tt8 =new TextField();
+       tt8.setLayoutX(220);
+       tt8.setLayoutY(370);
+       
+       backupT=new Button("Back");
+        backupT.setLayoutX(100);
+        backupT.setLayoutY(550);
+        backupT.setMinHeight(30);
+        backupT.setMinWidth(70);
+        
+        backupT.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+       
+       addT=new Button("Add");
+       addT.setLayoutX(220);
+       addT.setLayoutY(410);
+       
+       addT.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+       
+       groupteacher.getChildren().addAll(imviewinfoadd,tinfo,lt1,lt2,lt3,lt4,lt5,lt6,lt7,lt8,addT,tt1,tt2,tt3,tt4,tt5,tt6,tt7,tt8,backupT);
+       
+       
+       
+       
+       groupschool=new Group();
+        
+       schoolinfo=new Label("SCHOOL INFO.");
+       schoolinfo.setLayoutX(240);
+       schoolinfo.setLayoutY(30);
+       
+       l8=new Label("SCHOOL_ID");
+       l8.setLayoutX(140);
+       l8.setLayoutY(150);
+       
+       l9=new Label("NAME");
+       l9.setLayoutX(140);
+       l9.setLayoutY(190);
+       
+       
+       t8 =new TextField();
+       t8.setLayoutX(220);
+       t8.setLayoutY(150);
+       
+       t9 =new TextField();
+       t9.setLayoutX(220);
+       t9.setLayoutY(190);
+       
+       backupSch=new Button("Back");
+        backupSch.setLayoutX(100);
+        backupSch.setLayoutY(550);
+        backupSch.setMinHeight(30);
+        backupSch.setMinWidth(70);
+        
+        backupSch.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+       
+       addSch=new Button("Add");
+       addSch.setLayoutX(220);
+       addSch.setLayoutY(370);
+       
+       addSch.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+       
+       groupschool.getChildren().addAll(imviewinfoadd,schoolinfo,l8,l9,addSch,t8,t9,backupSch);
+       
+       
+       groupclas=new Group();
+       
+       cinfo=new Label("CLASS INFO.");
+       cinfo.setLayoutX(240);
+       cinfo.setLayoutY(30);
+       
+       lc1=new Label("CLASS_ID");
+       lc1.setLayoutX(140);
+       lc1.setLayoutY(150);
+       
+       lc2=new Label("SCHOOL_ID");
+       lc2.setLayoutX(140);
+       lc2.setLayoutY(190);
+       
+       lc3=new Label("NO_OF_STUDENTS");
+       lc3.setLayoutX(140);
+       lc3.setLayoutY(230);
+       
+       
+       tc1 =new TextField();
+       tc1.setLayoutX(260);
+       tc1.setLayoutY(150);
+       
+       tc2 =new TextField();
+       tc2.setLayoutX(260);
+       tc2.setLayoutY(190);
+       
+       tc3 =new TextField();
+       tc3.setLayoutX(260);
+       tc3.setLayoutY(230);
+       
+       backupC=new Button("Back");
+        backupC.setLayoutX(100);
+        backupC.setLayoutY(550);
+        backupC.setMinHeight(30);
+        backupC.setMinWidth(70);
+        
+        backupC.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+       
+       addC=new Button("Add");
+       addC.setLayoutX(220);
+       addC.setLayoutY(370);
+       
+       addC.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+       
+        
+       
+       groupclas.getChildren().addAll(imviewinfoadd,cinfo,lc1,lc2,lc3,addC,tc1,tc2,tc3,backupC);
+       
+       
+       
+       
+       groupsection=new Group();
+       
+       secinfo=new Label("SECTION INFO.");
+       secinfo.setLayoutX(240);
+       secinfo.setLayoutY(30);
+       
+       lsec1=new Label("SECTION_ID");
+       lsec1.setLayoutX(140);
+       lsec1.setLayoutY(150);
+       
+       lsec2=new Label("CLASS_ID");
+       lsec2.setLayoutX(140);
+       lsec2.setLayoutY(190);
+       
+       lsec3=new Label("ROOM_NO");
+       lsec3.setLayoutX(140);
+       lsec3.setLayoutY(230);
+       
+       lsec4=new Label("CLASS_TEACHER");
+       lsec4.setLayoutX(140);
+       lsec4.setLayoutY(270);
+       
+       lsec5=new Label("NO_OF_STUDENTS");
+       lsec5.setLayoutX(140);
+       lsec5.setLayoutY(310);
+       
+       
+       tsec1 =new TextField();
+       tsec1.setLayoutX(260);
+       tsec1.setLayoutY(150);
+       
+       tsec2 =new TextField();
+       tsec2.setLayoutX(260);
+       tsec2.setLayoutY(190);
+       
+       tsec3 =new TextField();
+       tsec3.setLayoutX(260);
+       tsec3.setLayoutY(230);
+       
+       tsec4 =new TextField();
+       tsec4.setLayoutX(260);
+       tsec4.setLayoutY(270);
+       
+       tsec5 =new TextField();
+       tsec5.setLayoutX(260);
+       tsec5.setLayoutY(310);
+       
+       backupSec=new Button("Back");
+        backupSec.setLayoutX(100);
+        backupSec.setLayoutY(550);
+        backupSec.setMinHeight(30);
+        backupSec.setMinWidth(70);
+        
+        backupSec.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+       
+       addSec=new Button("Add");
+       addSec.setLayoutX(220);
+       addSec.setLayoutY(370);
+       
+       addSec.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+       
+        
+       
+       groupsection.getChildren().addAll(imviewinfoadd,secinfo,lsec1,lsec2,lsec3,lsec4,lsec5,addSec,tsec1,tsec2,tsec3,tsec4,tsec5,backupSec);
+       
+       
+       
+       groupresult=new Group();
+       
+       rinfo=new Label("RESULT INFO.");
+       rinfo.setLayoutX(240);
+       rinfo.setLayoutY(30);
+       
+       lr1=new Label("RESULT_ID");
+       lr1.setLayoutX(140);
+       lr1.setLayoutY(150);
+       
+       lr2=new Label("STUDENT_ID");
+       lr2.setLayoutX(140);
+       lr2.setLayoutY(190);
+       
+       lr3=new Label("FIRST_TERM");
+       lr3.setLayoutX(140);
+       lr3.setLayoutY(230);
+       
+       lr4=new Label("SECOND_TERM");
+       lr4.setLayoutX(140);
+       lr4.setLayoutY(270);
+       
+       lr5=new Label("ANNUAL");
+       lr5.setLayoutX(140);
+       lr5.setLayoutY(310);
+       
+       
+       tr1 =new TextField();
+       tr1.setLayoutX(260);
+       tr1.setLayoutY(150);
+       
+       tr2 =new TextField();
+       tr2.setLayoutX(260);
+       tr2.setLayoutY(190);
+       
+       tr3 =new TextField();
+       tr3.setLayoutX(260);
+       tr3.setLayoutY(230);
+       
+       tr4 =new TextField();
+       tr4.setLayoutX(260);
+       tr4.setLayoutY(270);
+       
+       tr5 =new TextField();
+       tr5.setLayoutX(260);
+       tr5.setLayoutY(310);
+       
+       backupR=new Button("Back");
+        backupR.setLayoutX(100);
+        backupR.setLayoutY(550);
+        backupR.setMinHeight(30);
+        backupR.setMinWidth(70);
+        
+        backupR.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+       
+       addR=new Button("Add");
+       addR.setLayoutX(220);
+       addR.setLayoutY(370);
+       
+       addR.setOnAction((ActionEvent e)->
+                {
+            try {
+                ButtonClicked(e);
+            } catch (SQLException ex) {
+                Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                });
+       
+        
+       
+       groupresult.getChildren().addAll(imviewinfoadd,rinfo,lr1,lr2,lr3,lr4,lr5,addR,tr1,tr2,tr3,tr4,tr5,backupR);
+       
+       
+       
+       
+       
+       
+       grpinfS=new Group();
+         
+       studentinfo1=new Label("STUDENT_ID");
+       studentinfo1.setLayoutX(20);
+       studentinfo1.setLayoutY(20);
+       
+       
+       studentinfo2=new Label("NAME");
+       studentinfo2.setLayoutX(100);
+       studentinfo2.setLayoutY(20);
+       
+       
+       studentinfo7=new Label("CONTACT_NO");
+       studentinfo7.setLayoutX(160);
+       studentinfo7.setLayoutY(20);
+       
+       
+       studentinfo4=new Label("SECTION_ID");
+       studentinfo4.setLayoutX(240);
+       studentinfo4.setLayoutY(20);
+       
+       
+       studentinfo5=new Label("ROLL");
+       studentinfo5.setLayoutX(320);
+       studentinfo5.setLayoutY(20);
+       
+       
+       studentinfo6=new Label("GENDER");
+       studentinfo6.setLayoutX(360);
+       studentinfo6.setLayoutY(20);
+       
+       
+       studentinfo3=new Label("BDATE");
+       studentinfo3.setLayoutX(420);
+       studentinfo3.setLayoutY(20);
+       
+       imstudentinfo = new Image("studentinfo.jpg");
+       imviewstudentinfo = new ImageView();
+       imviewstudentinfo.setImage(imstudentinfo);
+       imviewstudentinfo.setTranslateX(0);
+       imviewstudentinfo.setTranslateY(0);
+       imviewstudentinfo.setFitHeight(650);
+       imviewstudentinfo.setFitWidth(1000);
+       
+       table.setTranslateX(10);
+       table.setTranslateY(80);
+       table.setTableMenuButtonVisible(true);
+       table.setPrefHeight(560);
+       
+       TableColumn column1= new TableColumn("Student Id");
+       column1.setMinWidth(100);
+       column1.setCellValueFactory(new PropertyValueFactory<>("id"));
+       
+       TableColumn column2= new TableColumn("Name");
+       column2.setMinWidth(100);
+       column2.setCellValueFactory(new PropertyValueFactory<>("name"));
+       
+       TableColumn column3= new TableColumn("BDATE");
+       column3.setMinWidth(100);
+       column3.setCellValueFactory(new PropertyValueFactory<>("bdate"));
+       
+       TableColumn column4= new TableColumn("SECTION ID");
+       column4.setMinWidth(100);
+       column4.setCellValueFactory(new PropertyValueFactory<>("secid"));
+       
+       TableColumn column5= new TableColumn("ROLL");
+       column5.setMinWidth(100);
+       column5.setCellValueFactory(new PropertyValueFactory<>("roll"));
+       
+       TableColumn column6= new TableColumn("GENDER");
+       column6.setMinWidth(100);
+       column6.setCellValueFactory(new PropertyValueFactory<>("gender"));
+       
+       TableColumn column7= new TableColumn("CONTACT NO");
+       column7.setMinWidth(100);
+       column7.setCellValueFactory(new PropertyValueFactory<>("nmbr"));
+       
+       table.getColumns().addAll(column1,column2,column3,column4,column5,column6,column7);
+       
+       
+       //grpinfS.getChildren().addAll(studentinfo1,studentinfo2,studentinfo3,studentinfo4,studentinfo5,studentinfo6,studentinfo7);
+       grpinfS.getChildren().addAll(imviewstudentinfo,table);
+       
+       
+       
+       grpinfSch=new Group();
+         
+       schoolinfo1=new Label("SCHOOL_ID");
+       schoolinfo1.setLayoutX(20);
+       schoolinfo1.setLayoutY(20);
+       
+       
+       schoolinfo2=new Label("NAME");
+       schoolinfo2.setLayoutX(100);
+       schoolinfo2.setLayoutY(20);
+ 
+       grpinfSch.getChildren().addAll(schoolinfo1,schoolinfo2);
+       
+       
+       grpinfHd=new Group();
+         
+       hdinfo1=new Label("HDM_ID");
+       hdinfo1.setLayoutX(20);
+       hdinfo1.setLayoutY(20);
+       
+       
+       hdinfo2=new Label("SCHOOL_ID");
+       hdinfo2.setLayoutX(100);
+       hdinfo2.setLayoutY(20);
+       
+       
+       hdinfo3=new Label("NAME");
+       hdinfo3.setLayoutX(180);
+       hdinfo3.setLayoutY(20);
+       
+       
+       hdinfo4=new Label("AGE");
+       hdinfo4.setLayoutX(240);
+       hdinfo4.setLayoutY(20);
+       
+       
+       hdinfo5=new Label("SUBJECT");
+       hdinfo5.setLayoutX(295);
+       hdinfo5.setLayoutY(20);
+       
+       
+       hdinfo6=new Label("CONTACT_NO");
+       hdinfo6.setLayoutX(360);
+       hdinfo6.setLayoutY(20);
+       
+       
+       hdinfo7=new Label("START_DATE");
+       hdinfo7.setLayoutX(455);
+       hdinfo7.setLayoutY(20);
+       
+       hdinfo8=new Label("END_DATE");
+       hdinfo8.setLayoutX(575);
+       hdinfo8.setLayoutY(20);
+       
+       tableHdM.setTranslateX(10);
+       tableHdM.setTranslateY(80);
+       tableHdM.setTableMenuButtonVisible(true);
+       tableHdM.setPrefHeight(560);
+       
+       TableColumn colHdM1= new TableColumn("HDM ID");
+       colHdM1.setMinWidth(100);
+       colHdM1.setCellValueFactory(new PropertyValueFactory<>("id"));
+       
+       TableColumn colHdM2= new TableColumn("SCHOOL ID");
+       colHdM2.setMinWidth(100);
+       colHdM2.setCellValueFactory(new PropertyValueFactory<>("schid"));
+       
+       TableColumn colHdM3= new TableColumn("NAME");
+       colHdM3.setMinWidth(100);
+       colHdM3.setCellValueFactory(new PropertyValueFactory<>("name"));
+       
+       TableColumn colHdM4= new TableColumn("AGE");
+       colHdM4.setMinWidth(100);
+       colHdM4.setCellValueFactory(new PropertyValueFactory<>("age"));
+       
+       TableColumn colHdM5= new TableColumn("SUBJECT");
+       colHdM5.setMinWidth(100);
+       colHdM5.setCellValueFactory(new PropertyValueFactory<>("subject"));
+       
+       TableColumn colHdM6= new TableColumn("START DATE");
+       colHdM6.setMinWidth(100);
+       colHdM6.setCellValueFactory(new PropertyValueFactory<>("stdate"));
+       
+       TableColumn colHdM7= new TableColumn("END DATE");
+       colHdM7.setMinWidth(100);
+       colHdM7.setCellValueFactory(new PropertyValueFactory<>("enddate"));
+       
+       TableColumn colHdM8= new TableColumn("CONTACT NO");
+       colHdM8.setMinWidth(100);
+       colHdM8.setCellValueFactory(new PropertyValueFactory<>("nmbr"));
+       
+       tableHdM.getColumns().addAll(colHdM1,colHdM2,colHdM3,colHdM4,colHdM5,colHdM6,colHdM7,colHdM8);
+       grpinfHd.getChildren().addAll(imviewstudentinfo,tableHdM);
+       
+       //grpinfHd.getChildren().addAll(hdinfo1,hdinfo2,hdinfo3,hdinfo4,hdinfo5,hdinfo6,hdinfo7,hdinfo8);
+       
+       
+       grptestjoinquery=new Group();
+       Ltestjoinquery1=new Label("SCHOOL_NAME");
+       Ltestjoinquery1.setLayoutX(20);
+       Ltestjoinquery1.setLayoutY(20);
+       
+       
+       Ltestjoinquery2=new Label("TEACHER_ID");
+       Ltestjoinquery2.setLayoutX(150);
+       Ltestjoinquery2.setLayoutY(20);
+       
+       
+       Ltestjoinquery3=new Label("TEACHER_NAME");
+       Ltestjoinquery3.setLayoutX(280);
+       Ltestjoinquery3.setLayoutY(20);
+       
+       grptestjoinquery.getChildren().addAll(Ltestjoinquery1,Ltestjoinquery2,Ltestjoinquery3);
+       
+       
+       
+       grptestsubquery=new Group();
+       Ltestsubquery1=new Label("STUDENT_ID");
+       Ltestsubquery1.setLayoutX(20);
+       Ltestsubquery1.setLayoutY(20);
+       
+       
+       Ltestsubquery2=new Label("ANNUAL");
+       Ltestsubquery2.setLayoutX(150);
+       Ltestsubquery2.setLayoutY(20);
+       
+       grptestsubquery.getChildren().addAll(Ltestsubquery1,Ltestsubquery2);
+       
+       
+       
+       
+       
+       Stestsubquery=new Scene(grptestsubquery,1000,650);
+       Stestjoinquery=new Scene(grptestjoinquery,1000,650);
+       tablescene=new Scene(group1,1000,650);
+       SinfoS=new Scene(grpinfS,1000,650);
+       SinfoHd=new Scene(grpinfHd,1000,650);
+       //SinfoAssis=new Scene(grpinfAssis,1000,650);
+       //SinfoT=new Scene(grpinfT,1000,650);
+       //SinfoC=new Scene(grpinfC,1000,650);
+       //SinfoSec=new Scene(grpinfSec,1000,650);
+       SinfoSch=new Scene(grpinfSch,1000,650);
+       //SinfoR=new Scene(grpinfR,1000,650);
+       
+       guestscene=new Scene(groupguest,1000,650);
+       sLogin=new Scene(login,1000,650);
+       startscene =new Scene(root,1000,650);
+       infoscene=new Scene(group2,1000,650);
+       uptablesceneS=new Scene(groupstudent,1000,650);
+       uptablesceneSec=new Scene(groupsection,1000,650);
+       uptablesceneSch=new Scene(groupschool,1000,650);
+       uptablesceneRes=new Scene(groupresult,1000,650);
+       uptablesceneH=new Scene(grouphead,1000,650);
+       uptablesceneA=new Scene(groupassis,1000,650);
+       uptablesceneC=new Scene(groupclas,1000,650);
+       uptablesceneT=new Scene(groupteacher,1000,650);
+       
+       
+       
+       Scene scene=new Scene(startroot,1000,650);
+       stage.setScene(scene);
+       stage.show();
+           
+   }
+    
+    
+    public static void main(String[] args)
+    {
+        // TODO code application logic here
+         launch(args);
+        
+     
+    }
+
+    private void ButtonClicked(ActionEvent e) throws SQLException {
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        if(e.getSource()==testjoinquery)
+        {
+            stage.setScene(Stestjoinquery);
+            
+            
+            String sql = "SELECT S.NAME, T.TEACHER_ID, T.NAME\n" +
+"FROM SCHOOL S JOIN TEACHER T\n" +
+"ON (S.SCHOOL_ID = T.SCHOOL_ID)";
+
+        try
+        {
+            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:ORCL", "firos", "1505084");
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            int y=70;
+            while (rs.next())
+            {
+                //System.out.print(rs.getString(1) + " , " + rs.getString(2) + " , " + rs.getString(3)+" , ");
+                //System.out.print(rs.getString(4) + " , " + rs.getString(5) + " , " + rs.getString(6)+" , ");
+                //System.out.println(rs.getString(7));
+                Ttestjoinquery11=new Text();
+                Ttestjoinquery22=new Text();
+                Ttestjoinquery33=new Text();
+                
+                Ttestjoinquery11.setText(rs.getString(1));
+                Ttestjoinquery11.setLayoutX(20);
+                Ttestjoinquery11.setLayoutY(y);
+                
+                Ttestjoinquery22.setText(rs.getString(2));
+                Ttestjoinquery22.setLayoutX(150);
+                Ttestjoinquery22.setLayoutY(y);
+                
+                Ttestjoinquery33.setText(rs.getString(3));
+                Ttestjoinquery33.setLayoutX(280);
+                Ttestjoinquery33.setLayoutY(y);
+                
+                grptestjoinquery.getChildren().addAll(Ttestjoinquery11,Ttestjoinquery22,Ttestjoinquery33);
+                y=y+20;
+            }
+            
+            pst.close();
+            con.close();
+        } catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        }
+        
+        if(e.getSource()==testsubquery)
+        {
+            stage.setScene(Stestsubquery);
+            
+            
+            String sql = "SELECT STUDENT_ID,ANNUAL\n" +
+"FROM RESULT\n" +
+"WHERE ANNUAL >\n" +
+"(\n" +
+"SELECT ANNUAL\n" +
+"FROM RESULT\n" +
+"WHERE STUDENT_ID='1505002'\n" +
+") ";
+
+        try
+        {
+            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:ORCL", "firos", "1505084");
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            int y=70;
+            while (rs.next())
+            {
+                //System.out.print(rs.getString(1) + " , " + rs.getString(2) + " , " + rs.getString(3)+" , ");
+                //System.out.print(rs.getString(4) + " , " + rs.getString(5) + " , " + rs.getString(6)+" , ");
+                //System.out.println(rs.getString(7));
+                Ttestsubquery11=new Text();
+                Ttestsubquery22=new Text();
+                
+                Ttestsubquery11.setText(rs.getString(1));
+                Ttestsubquery11.setLayoutX(20);
+                Ttestsubquery11.setLayoutY(y);
+                
+                Ttestsubquery22.setText(rs.getString(2));
+                Ttestsubquery22.setLayoutX(150);
+                Ttestsubquery22.setLayoutY(y);
+                
+                grptestsubquery.getChildren().addAll(Ttestsubquery11,Ttestsubquery22);
+                y=y+20;
+            }
+            
+            pst.close();
+            con.close();
+        } catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        }
+        
+        if(e.getSource()==admin)
+        {
+            login=new Group();
+            login.getChildren().addAll(imviewlogin,Lusername,Lpassword,username,password,bLogin,backlogin);
+            sLogin=new Scene(login,1000,650);
+            stage.setScene(sLogin);
+        }
+        
+        if(e.getSource()==bLogin)
+        {
+            String user="firos";
+            String pass="123";
+            String kp=new String();
+            kp=username.getText();
+            String kp1=new String();
+            kp1=password.getText();
+            //System.out.println(kp.equals(s));
+            if(kp.equals(user) && kp1.equals(pass))
+            {
+                username.clear();
+                password.clear();
+                root=new Group();
+                root.getChildren().addAll(iv1,update,info,backuserlogin);
+                startscene=new Scene(root,1000,650);
+                stage.setScene(startscene);
+            }
+            
+            else
+            {
+                Text t=new Text();
+                t.setText("INVALID USER_NAME OR PASSWORD!!!");
+                //t.setFont(Font.font ("Verdana", 20));
+                //t.setFill(Paint.valueOf(Color.blue));
+                t.setLayoutX(200);
+                t.setLayoutY(400);
+                username.clear();
+                password.clear();
+                login.getChildren().addAll(t);
+            }
+            
+        }
+        if(e.getSource()==backlogin)
+        {
+            username.clear();
+            password.clear();
+            startroot=new Pane();
+            startroot.getChildren().addAll(imview1st,guest,admin,testjoinquery,testsubquery);
+            scene=new Scene(startroot,1000,650);
+            stage.setScene(scene);
+        }
+        
+        if(e.getSource()==guest)
+        {
+            groupguest=new Group();
+            groupguest.getChildren().addAll(infoHd,infoAssis,infoT,infoC,infoSec,infoR,infoS,infoSch,backguest);
+            guestscene=new Scene(groupguest,1000,650);
+            stage.setScene(guestscene);
+        }
+        if(e.getSource()==backguest)
+        {
+            startroot=new Pane();
+            startroot.getChildren().addAll(imview1st,guest,admin,testjoinquery,testsubquery);
+            scene=new Scene(startroot,1000,650);
+            stage.setScene(scene);
+        }
+        
+        if(e.getSource()==update)
+        {
+            group1=new Group();
+            group1.getChildren().addAll(backuserlogin,backupdate,school,head,assis,student,teacher,clas,section,result);
+            tablescene=new Scene(group1,1000,650);
+            stage.setScene(tablescene);
+        }
+        if(e.getSource()==info)
+        {
+            group2=new Group();
+            group2.getChildren().addAll(infoHd,infoAssis,infoT,infoC,infoSec,infoR,infoS,infoSch,backinfo);
+            infoscene=new Scene(group2,1000,650);
+            stage.setScene(infoscene);
+        }
+        if(e.getSource()==backuserlogin)
+        {
+            login=new Group();
+            login.getChildren().addAll(imviewlogin,Lusername,Lpassword,username,password,bLogin,backlogin);
+            sLogin=new Scene(login,1000,650);
+            stage.setScene(sLogin);
+        }
+       
+        if(e.getSource()==infoS)
+        {
+            stage.setScene(SinfoS);
+            
+            
+            /*String sql = "SELECT * FROM STUDENT";
+
+        try
+        {
+            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:ORCL", "firos", "1505084");
+            //Connection con = new OracleDBUtil().getConnection();
+            //Connection con1 = new OracleDBMS().getConnection();
+            PreparedStatement pst = con.prepareStatement(sql);
+            //pst.setString(1, "1505001");
+            ResultSet rs = pst.executeQuery();
+            int y=70;
+            while (rs.next())
+            {
+                //System.out.print(rs.getString(1) + " , " + rs.getString(2) + " , " + rs.getString(3)+" , ");
+                //System.out.print(rs.getString(4) + " , " + rs.getString(5) + " , " + rs.getString(6)+" , ");
+                //System.out.println(rs.getString(7));
+                studentinfo11=new Text();
+                studentinfo22=new Text();
+                studentinfo33=new Text();
+                studentinfo44=new Text();
+                studentinfo55=new Text();
+                studentinfo66=new Text();
+                studentinfo77=new Text();
+                
+                studentinfo11.setText(rs.getString(1));
+                studentinfo11.setLayoutX(20);
+                studentinfo11.setLayoutY(y);
+                
+                studentinfo22.setText(rs.getString(2));
+                studentinfo22.setLayoutX(100);
+                studentinfo22.setLayoutY(y);
+                
+                studentinfo33.setText(rs.getString(3));
+                studentinfo33.setLayoutX(420);
+                studentinfo33.setLayoutY(y);
+                
+                studentinfo44.setText(rs.getString(4));
+                studentinfo44.setLayoutX(240);
+                studentinfo44.setLayoutY(y);
+                
+                studentinfo55.setText(rs.getString(5));
+                studentinfo55.setLayoutX(320);
+                studentinfo55.setLayoutY(y);
+                
+                studentinfo66.setText(rs.getString(6));
+                studentinfo66.setLayoutX(360);
+                studentinfo66.setLayoutY(y);
+                
+                studentinfo77.setText(rs.getString(7));
+                studentinfo77.setLayoutX(160);
+                studentinfo77.setLayoutY(y);
+                
+                grpinfS.getChildren().addAll(studentinfo11,studentinfo22,studentinfo33,studentinfo44,studentinfo55,studentinfo66,studentinfo77);
+                y=y+20;
+            }
+            
+            pst.close();
+            con.close();
+        } catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }*/
+            
+            
+            
+            String sql = "SELECT * FROM STUDENT";
+
+        try
+        {
+            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:ORCL", "firos", "1505084");
+            
+            PreparedStatement pst = con.prepareStatement(sql);
+            
+            ResultSet rs = pst.executeQuery();
+            while (rs.next())
+            {
+                data.add(new User2(
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7)
+                ));
+                table.setItems(data);
+            }
+            
+            pst.close();
+            con.close();
+        } catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        
+        }
+        
+        if(e.getSource()==infoSch)
+        {
+            stage.setScene(SinfoSch);
+            
+            
+            String sql = "SELECT * FROM SCHOOL";
+
+        try
+        {
+            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:ORCL", "firos", "1505084");
+            //Connection con = new OracleDBUtil().getConnection();
+            //Connection con1 = new OracleDBMS().getConnection();
+            PreparedStatement pst = con.prepareStatement(sql);
+            //pst.setString(1, "1505001");
+            ResultSet rs = pst.executeQuery();
+            int y=70;
+            while (rs.next())
+            {
+                //System.out.print(rs.getString(1) + " , " + rs.getString(2) + " , " + rs.getString(3)+" , ");
+                //System.out.print(rs.getString(4) + " , " + rs.getString(5) + " , " + rs.getString(6)+" , ");
+                //System.out.println(rs.getString(7));
+                schoolinfo11=new Text();
+                schoolinfo22=new Text();
+                
+                
+                schoolinfo11.setText(rs.getString(1));
+                schoolinfo11.setLayoutX(20);
+                schoolinfo11.setLayoutY(y);
+                
+                schoolinfo22.setText(rs.getString(2));
+                schoolinfo22.setLayoutX(100);
+                schoolinfo22.setLayoutY(y);
+                
+                grpinfSch.getChildren().addAll(schoolinfo11,schoolinfo22);
+                y=y+20;
+            }
+            
+            pst.close();
+            con.close();
+        } catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        }
+        
+        if(e.getSource()==infoHd)
+        {
+            stage.setScene(SinfoHd);
+            
+            
+            /*String sql = "SELECT * FROM HEAD_MASTER";
+
+        try
+        {
+            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:ORCL", "firos", "1505084");
+            //Connection con = new OracleDBUtil().getConnection();
+            //Connection con1 = new OracleDBMS().getConnection();
+            PreparedStatement pst = con.prepareStatement(sql);
+            //pst.setString(1, "1505001");
+            ResultSet rs = pst.executeQuery();
+            int y=70;
+            while (rs.next())
+            {
+                //System.out.print(rs.getString(1) + " , " + rs.getString(2) + " , " + rs.getString(3)+" , ");
+                //System.out.print(rs.getString(4) + " , " + rs.getString(5) + " , " + rs.getString(6)+" , ");
+                //System.out.println(rs.getString(7));
+                hdinfo11=new Text();
+                hdinfo22=new Text();
+                hdinfo33=new Text();
+                hdinfo44=new Text();
+                hdinfo55=new Text();
+                hdinfo66=new Text();
+                hdinfo77=new Text();
+                hdinfo88=new Text();
+                
+                hdinfo11.setText(rs.getString(1));
+                hdinfo11.setLayoutX(20);
+                hdinfo11.setLayoutY(y);
+                
+                hdinfo22.setText(rs.getString(2));
+                hdinfo22.setLayoutX(100);
+                hdinfo22.setLayoutY(y);
+                
+                hdinfo33.setText(rs.getString(3));
+                hdinfo33.setLayoutX(180);
+                hdinfo33.setLayoutY(y);
+                
+                hdinfo44.setText(rs.getString(4));
+                hdinfo44.setLayoutX(240);
+                hdinfo44.setLayoutY(y);
+                
+                hdinfo55.setText(rs.getString(5));
+                hdinfo55.setLayoutX(300);
+                hdinfo55.setLayoutY(y);
+                
+                hdinfo66.setText(rs.getString(6));
+                hdinfo66.setLayoutX(460);
+                hdinfo66.setLayoutY(y);
+                
+                hdinfo77.setText(rs.getString(7));
+                hdinfo77.setLayoutX(580);
+                hdinfo77.setLayoutY(y);
+                
+                hdinfo88.setText(rs.getString(8));
+                hdinfo88.setLayoutX(360);
+                hdinfo88.setLayoutY(y);
+                
+                grpinfHd.getChildren().addAll(hdinfo11,hdinfo22,hdinfo33,hdinfo44,hdinfo55,hdinfo66,hdinfo77,hdinfo88);
+                y=y+20;
+                
+                data.add(new User2(
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7)
+                ));
+                table.setItems(data);
+            }
+            
+            pst.close();
+            con.close();
+        } catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }*/
+            
+            String sql = "SELECT * FROM HEAD_MASTER";
+
+        try
+        {
+            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:ORCL", "firos", "1505084");
+            PreparedStatement pst = con.prepareStatement(sql);
+            ResultSet rs = pst.executeQuery();
+            while (rs.next())
+            {
+                dataHdM.add(new HdM(
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getString(7),
+                        rs.getString(8)
+                ));
+                tableHdM.setItems(dataHdM);
+            }
+            
+            pst.close();
+            con.close();
+        } catch (SQLException ex)
+        {
+            ex.printStackTrace();
+        }
+        }
+        
+        if(e.getSource()==backupdate)
+        {
+            root=new Group();
+            root.getChildren().addAll(iv1,update,info,backuserlogin);
+            startscene=new Scene(root,1000,650);
+            stage.setScene(startscene);
+        }
+        
+        if(e.getSource()==backupS)
+        {
+            group1=new Group();
+            group1.getChildren().addAll(backuserlogin,backupdate,school,head,assis,student,teacher,clas,section,result);
+            tablescene=new Scene(group1,1000,650);
+            stage.setScene(tablescene);
+        }
+        
+        if(e.getSource()==backupHd)
+        {
+            group1=new Group();
+            group1.getChildren().addAll(backuserlogin,backupdate,school,head,assis,student,teacher,clas,section,result);
+            tablescene=new Scene(group1,1000,650);
+            stage.setScene(tablescene);
+        }
+        
+        if(e.getSource()==backupAssis)
+        {
+            group1=new Group();
+            group1.getChildren().addAll(backuserlogin,backupdate,school,head,assis,student,teacher,clas,section,result);
+            tablescene=new Scene(group1,1000,650);
+            stage.setScene(tablescene);
+        }
+        
+        if(e.getSource()==backupT)
+        {
+            group1=new Group();
+            group1.getChildren().addAll(backuserlogin,backupdate,school,head,assis,student,teacher,clas,section,result);
+            tablescene=new Scene(group1,1000,650);
+            stage.setScene(tablescene);
+        }
+        
+        if(e.getSource()==backupSch)
+        {
+            group1=new Group();
+            group1.getChildren().addAll(backuserlogin,backupdate,school,head,assis,student,teacher,clas,section,result);
+            tablescene=new Scene(group1,1000,650);
+            stage.setScene(tablescene);
+        }
+        
+        if(e.getSource()==backupSec)
+        {
+            group1=new Group();
+            group1.getChildren().addAll(backuserlogin,backupdate,school,head,assis,student,teacher,clas,section,result);
+            tablescene=new Scene(group1,1000,650);
+            stage.setScene(tablescene);
+        }
+        
+        if(e.getSource()==backupR)
+        {
+            group1=new Group();
+            group1.getChildren().addAll(backuserlogin,backupdate,school,head,assis,student,teacher,clas,section,result);
+            tablescene=new Scene(group1,1000,650);
+            stage.setScene(tablescene);
+        }
+        
+        if(e.getSource()==backupC)
+        {
+            group1=new Group();
+            group1.getChildren().addAll(backuserlogin,backupdate,school,head,assis,student,teacher,clas,section,result);
+            tablescene=new Scene(group1,1000,650);
+            stage.setScene(tablescene);
+        }
+        
+        
+        if(e.getSource()==student)
+        {
+            groupstudent=new Group();
+            groupstudent.getChildren().addAll(imviewinfoadd,backuserlogin,studentinfo,l1,l2,l3,l4,l5,l6,l7,addS,t1,t2,t3,t4,t5,t6,t7,backupS);
+            uptablesceneS=new Scene(groupstudent,1000,650);
+            stage.setScene(uptablesceneS);
+        }
+        
+        if(e.getSource()==addS)
+        {
+            try
+        {
+            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:ORCL", "firos", "1505084");
+            String sql = "insert into STUDENT (STUDENT_ID, NAME, BDATE, SECTION_ID, ROLL, GENDER, CONTACT_NO) values(?,?,?,?,?,?,?)" ;
+            PreparedStatement pst = con.prepareStatement(sql);
+            try {
+            pst.setString(1, t1.getText());
+            pst.setString(2, t2.getText());
+            pst.setString(3, t3.getText());
+            pst.setString(4, t4.getText());
+            pst.setString(5, t5.getText());
+            pst.setString(6, t6.getText());
+            pst.setString(7, t7.getText());
+            pst.executeUpdate();
+            pst.close();
+                    con.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+                } 
+                
+                t1.clear();
+            t2.clear();
+            t3.clear();
+            t4.clear();
+            t5.clear();
+            t6.clear();
+            t7.clear();
+            
+        }catch (SQLException ex)
+        {
+            System.out.println("Connection Failed! Check it from console");
+            ex.printStackTrace();
+        }
+        }
+        
+        if(e.getSource()==school)
+        {
+            groupschool=new Group();
+            groupschool.getChildren().addAll(imviewinfoadd,backuserlogin,schoolinfo,l8,l9,addSch,t8,t9,backupSch);
+            uptablesceneSch=new Scene(groupschool,1000,650);
+            stage.setScene(uptablesceneSch);                       
+        }
+        
+        if(e.getSource()==addSch)
+        {
+             try
+        {
+            Connection con1 = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:ORCL", "firos", "1505084");
+            String sql1 = "insert into SCHOOL (SCHOOL_ID, NAME) values(?,?)" ;
+            PreparedStatement pst1 = con1.prepareStatement(sql1);
+            
+            
+            try {
+            pst1.setString(1, t8.getText());
+            pst1.setString(2, t9.getText());
+            pst1.executeUpdate();
+            pst1.close();
+                    con1.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            
+            t8.clear();
+            t9.clear();
+            
+        }catch (SQLException ex)
+        {
+            System.out.println("Connection Failed! Check it from console");
+            ex.printStackTrace();
+        }                    
+        }
+        
+        if(e.getSource()==head)
+        {
+            grouphead=new Group();
+            grouphead.getChildren().addAll(imviewinfoadd,backuserlogin,hdinfo,lhd1,lhd2,lhd3,lhd4,lhd5,lhd6,lhd7,lhd8,addHd,thd1,thd2,thd3,thd4,thd5,thd6,thd7,thd8,backupHd);
+            uptablesceneH=new Scene(grouphead,1000,650);
+            stage.setScene(uptablesceneH);                       
+        }
+        
+        if(e.getSource()==addHd)
+        {
+             try
+        {
+            Connection con2 = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:ORCL", "firos", "1505084");
+            String sql2 = "insert into HEAD_MASTER (HDM_ID, SCHOOL_ID, NAME, AGE, SUBJECT, START_DATE, END_DATE, CONTACT_NO) values(?,?,?,?,?,?,?,?)" ;
+            PreparedStatement pst2 = con2.prepareStatement(sql2);
+            
+            try {
+            pst2.setString(1, thd1.getText());
+            pst2.setString(2, thd2.getText());
+            pst2.setString(3, thd3.getText());
+            pst2.setString(4, thd4.getText());
+            pst2.setString(5, thd5.getText());
+            pst2.setString(6, thd6.getText());
+            pst2.setString(7, thd7.getText());
+            pst2.setString(8, thd8.getText());
+            pst2.executeUpdate();
+            pst2.close();
+                    con2.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            thd1.clear();
+            thd2.clear();
+            thd3.clear();
+            thd4.clear();
+            thd5.clear();
+            thd6.clear();
+            thd7.clear();
+            thd8.clear();
+            
+            
+        }catch (SQLException ex)
+        {
+            System.out.println("Connection Failed! Check it from console");
+            ex.printStackTrace();
+        }                    
+        }
+        
+        if(e.getSource()==assis)
+        {
+            groupassis=new Group();
+            groupassis.getChildren().addAll(imviewinfoadd,backuserlogin,assisinfo,las1,las2,las3,las4,las5,las6,las7,las8,addAssis,tas1,tas2,tas3,tas4,tas5,tas6,tas7,tas8,backupAssis);
+            uptablesceneA=new Scene(groupassis,1000,650);
+            stage.setScene(uptablesceneA);                       
+        }
+        
+        if(e.getSource()==addAssis)
+        {
+            try
+        {
+            Connection con3 = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:ORCL", "firos", "1505084");
+            String sql3 = "insert into ASSIS_HEAD_MASTER (ASHDM_ID, SCHOOL_ID, NAME, AGE, SUBJECT, START_DATE, END_DATE, CONTACT_NO) values(?,?,?,?,?,?,?,?)" ;
+            PreparedStatement pst3 = con3.prepareStatement(sql3);
+            
+            try {
+            pst3.setString(1, tas1.getText());
+            pst3.setString(2, tas2.getText());
+            pst3.setString(3, tas3.getText());
+            pst3.setString(4, tas4.getText());
+            pst3.setString(5, tas5.getText());
+            pst3.setString(6, tas6.getText());
+            pst3.setString(7, tas7.getText());
+            pst3.setString(8, tas8.getText());
+            pst3.executeUpdate();
+            pst3.close();
+                    con3.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            tas1.clear();
+            tas2.clear();
+            tas3.clear();
+            tas4.clear();
+            tas5.clear();
+            tas6.clear();
+            tas7.clear();
+            tas8.clear();
+            
+         
+        }catch (SQLException ex)
+        {
+            System.out.println("Connection Failed! Check it from console");
+            ex.printStackTrace();
+        }                       
+        }
+        
+        if(e.getSource()==teacher)
+        {
+            groupteacher=new Group();
+            groupteacher.getChildren().addAll(imviewinfoadd,backuserlogin,tinfo,lt1,lt2,lt3,lt4,lt5,lt6,lt7,lt8,addT,tt1,tt2,tt3,tt4,tt5,tt6,tt7,tt8,backupT);
+            uptablesceneT=new Scene(groupteacher,1000,650);
+            stage.setScene(uptablesceneT);                       
+        }
+        
+        if(e.getSource()==addT)
+        {
+            try
+        {
+            Connection con4 = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:ORCL", "firos", "1505084");
+            String sql4 = "insert into TEACHER (TEACHER_ID, SCHOOL_ID, NAME, AGE, SUBJECT, START_DATE, END_DATE, CONTACT_NO) values(?,?,?,?,?,?,?,?)" ;
+            PreparedStatement pst4 = con4.prepareStatement(sql4);
+            
+            try {
+            pst4.setString(1, tt1.getText());
+            pst4.setString(2, tt2.getText());
+            pst4.setString(3, tt3.getText());
+            pst4.setString(4, tt4.getText());
+            pst4.setString(5, tt5.getText());
+            pst4.setString(6, tt6.getText());
+            pst4.setString(7, tt7.getText());
+            pst4.setString(8, tt8.getText());
+            pst4.executeUpdate();
+            pst4.close();
+                    con4.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            
+            tt1.clear();
+            tt2.clear();
+            tt3.clear();
+            tt4.clear();
+            tt5.clear();
+            tt6.clear();
+            tt7.clear();
+            tt8.clear();
+       
+            
+        }catch (SQLException ex)
+        {
+            System.out.println("Connection Failed! Check it from console");
+            ex.printStackTrace();
+        }                    
+        }
+        
+        
+        if(e.getSource()==clas)
+        {
+            groupclas=new Group();
+            groupclas.getChildren().addAll(imviewinfoadd,backuserlogin,cinfo,lc1,lc2,lc3,addC,tc1,tc2,tc3,backupC);
+            uptablesceneC=new Scene(groupclas,1000,650);
+            stage.setScene(uptablesceneC);                       
+        }
+        
+        if(e.getSource()==addC)
+        {
+             try
+        {
+            Connection con5 = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:ORCL", "firos", "1505084");
+            String sql5 = "insert into CLASS (CLASS_ID,SCHOOL_ID, NO_OF_STUDENTS) values(?,?,?)" ;
+            PreparedStatement pst5 = con5.prepareStatement(sql5);
+            
+            
+            try {
+            pst5.setString(1, tc1.getText());
+            pst5.setString(2, tc2.getText());
+            pst5.setString(3, tc3.getText());
+            pst5.executeUpdate();
+            pst5.close();
+                    con5.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+                } 
+            tc1.clear();
+            tc2.clear();
+            tc3.clear();
+            
+        }catch (SQLException ex)
+        {
+            System.out.println("Connection Failed! Check it from console");
+            ex.printStackTrace();
+        }                     
+        }
+        
+        if(e.getSource()==section)
+        {
+            groupsection=new Group();
+            groupsection.getChildren().addAll(imviewinfoadd,backuserlogin,secinfo,lsec1,lsec2,lsec3,lsec4,lsec5,addSec,tsec1,tsec2,tsec3,tsec4,tsec5,backupSec);
+            uptablesceneSec=new Scene(groupsection,1000,650);
+            stage.setScene(uptablesceneSec);                       
+        }
+        
+        if(e.getSource()==addSec)
+        {
+             try
+        {
+            Connection con6 = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:ORCL", "firos", "1505084");
+            String sql6 = "insert into SECTION (SECTION_ID, CLASS_ID, ROOM_NO, CLASS_TEACHER, NO_OF_STUDENTS) values(?,?,?,?,?)" ;
+            PreparedStatement pst6 = con6.prepareStatement(sql6);
+            
+            try {
+            pst6.setString(1, tsec1.getText());
+            pst6.setString(2, tsec2.getText());
+            pst6.setString(3, tsec3.getText());
+            pst6.setString(4, tsec4.getText());
+            pst6.setString(5, tsec5.getText());
+            pst6.executeUpdate();
+            pst6.close();
+                    con6.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            tsec1.clear();
+            tsec2.clear();
+            tsec3.clear();
+            tsec4.clear();
+            tsec5.clear();
+            
+            
+            
+        }catch (SQLException ex)
+        {
+            System.out.println("Connection Failed! Check it from console");
+            ex.printStackTrace();
+        }                     
+        }
+        
+        if(e.getSource()==result)
+        {
+            groupresult=new Group();
+            groupresult.getChildren().addAll(imviewinfoadd,backuserlogin,rinfo,lr1,lr2,lr3,lr4,lr5,addR,tr1,tr2,tr3,tr4,tr5,backupR);
+            uptablesceneRes=new Scene(groupresult,1000,650);
+            stage.setScene(uptablesceneRes);                       
+        }
+        
+        if(e.getSource()==addR)
+        {
+             try
+        {
+            Connection con7 = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:ORCL", "firos", "1505084");
+            String sql7= "insert into RESULT (RESULT_ID, STUDENT_ID, FIRST_TERM, SECOND_TERM, ANNUAL) values(?,?,?,?,?)" ;
+            PreparedStatement pst7 = con7.prepareStatement(sql7);
+            
+            try {
+            pst7.setString(1, tr1.getText());
+            pst7.setString(2, tr2.getText());
+            pst7.setString(3, tr3.getText());
+            pst7.setString(4, tr4.getText());
+            pst7.setString(5, tr5.getText());
+            pst7.executeUpdate();
+            pst7.close();
+                    con7.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(insert.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            tr1.clear();
+            tr2.clear();
+            tr3.clear();
+            tr4.clear();
+            tr5.clear();
+            
+            
+        }catch (SQLException ex)
+        {
+            System.out.println("Connection Failed! Check it from console");
+            ex.printStackTrace();
+        }                      
+        }
+        
+        if(e.getSource()==backinfo)
+        {
+            root=new Group();
+            root.getChildren().addAll(iv1,update,info,backuserlogin);
+            startscene=new Scene(root,1000,650);
+            stage.setScene(startscene);
+        }
+  
+    
+    }
+
+}
