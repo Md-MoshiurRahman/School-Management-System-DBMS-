@@ -15,3 +15,4 @@ This is an application for recording and viewing the operational, managerial inf
 
 ## How it looks
 After launching the code it will look like this-
+![alt text](https://github.com/RahmanFiros/School-Management-System-DBMS-/blob/master/Screenshot.png)
